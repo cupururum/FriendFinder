@@ -7,8 +7,12 @@ var routes = function(app){
     })
 
     app.post('/api/friends', (req, res) => {
+        var compatName
+        var resultPhoto
+        console.log("friendsData inside of findCompatible", friendsData)
         var scoresNewUser = req.body.scores
-        
+        console.log("scoresNewUser ", scoresNewUser)
+            
         var diffScoreArrayOfFriends = []
         
         friendsData.forEach((friend) => {
@@ -18,6 +22,7 @@ var routes = function(app){
             }
             var sumDif = 0
             var friendScores = friend.scores
+ 
             for (i = 0; i < friendScores.length; i++ ){
                 var difScore = Math.abs(scoresNewUser[i] - friendScores[i])
                 sumDif += difScore
@@ -27,32 +32,39 @@ var routes = function(app){
             diffScoreArrayOfFriends.push(difScoreDict)
         })
 
+        console.log("diffScoreArrayOfFriends ", diffScoreArrayOfFriends)
+    
         var minScore = diffScoreArrayOfFriends[0].diffScore
         for (j = 1; j <  diffScoreArrayOfFriends.length; j++) {
-            if (minScore >= diffScoreArrayOfFriends[j].diffScore) {
+            if (minScore > diffScoreArrayOfFriends[j].diffScore) {
                 minScore = diffScoreArrayOfFriends[j].diffScore
-                var compatName = diffScoreArrayOfFriends[j].name
+                compatName = diffScoreArrayOfFriends[j].name
             } else {
                 // ignore!
             }
+            console.log("minScore, compatName ", minScore, compatName)
         }
-      
-        var resultPhoto
+    
         for (k = 0; k < friendsData.length; k++) {
             if (compatName === friendsData[k].name) {
                 resultPhoto = friendsData[k].photo
-                console.log(resultPhoto)
             }
         }
 
+        console.log("resultPhoto ", resultPhoto )
+
         friendsData.push(req.body)
-        res.json({ name: compatName,
-                   photo: resultPhoto
+        console.log("before sending the response ", compatName, resultPhoto)
+        res.json({ 
+                name: compatName,
+                photo: resultPhoto
                  });
     })
 
 }
 
-
+function findCompatible(friendsData, req){
+ 
+}
 
 module.exports = routes
