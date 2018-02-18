@@ -295,6 +295,8 @@
               // Show the modal with the best match
               $("#results-modal").modal("toggle");
     
+            }).done(function(data){
+                console.log("inside of done ", data.name)
             });
           } else {
             alert("Please fill out all fields before submitting!");

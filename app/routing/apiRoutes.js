@@ -35,11 +35,14 @@ var routes = function(app){
         console.log("diffScoreArrayOfFriends ", diffScoreArrayOfFriends)
     
         var minScore = diffScoreArrayOfFriends[0].diffScore
+        console.log("minScore before for loop", minScore)
         for (j = 1; j <  diffScoreArrayOfFriends.length; j++) {
             if (minScore > diffScoreArrayOfFriends[j].diffScore) {
                 minScore = diffScoreArrayOfFriends[j].diffScore
                 compatName = diffScoreArrayOfFriends[j].name
+                console.log("minScore, compatName inside of the for loop ", minScore, compatName)
             } else {
+                compatName = diffScoreArrayOfFriends[j].name
                 // ignore!
             }
             console.log("minScore, compatName ", minScore, compatName)
